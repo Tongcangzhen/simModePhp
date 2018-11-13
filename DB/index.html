@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+<body>
+<form>
+    name: <input type="text" name="mname" id="mname"/>
+    age: <input type="text" name="age" id="age"/>
+    job: <input type="text" name="job" id="job"/>
+    <input type="submit" id="btn"/>
+</form>
+<form>
+    name: <input type="text" name="mname" id="qmname"/>
+    age: <input type="text" name="age" id="qage"/>
+    job: <input type="text" name="job" id="qjob"/>
+    <input type="button" id="qbtn" value="查询"/>
+</form>
+<form>
+    name: <input type="text" name="mname" id="cmname"/>
+    age: <input type="text" name="age" id="cage"/>
+    job: <input type="text" name="job" id="cjob"/>
+    <input type="submit" id="cbtn" value="修改"/>
+</form>
+<ul id="list">
+</ul>
+<script type="text/javascript">
+    function refreash() {
+        $('table').remove();
+        $.ajax({
+            type: "post",
+            url: "phpToAjax.php",
+            dataType: "json",
+            success: function(msg)
+            {
+                $("body").append("<table id='member'><tr><th>id</th><th>name</th><th>age</th><th>job</th><th>select</th><th>修改</th></tr></table>");
+                for(var i =0;i<msg.length;i++)
+                {
+                    $("#member").append("<tr><th>"+msg[i]["id"]+"</th><th>"+msg[i]['mname']+"</th><th>"+msg[i]['age']+"</th><th>"+msg[i]['job']+"</th><th class='btnBox'><button class='dbtn'>delete</button></th><th><button class='change'>修改</button></th></tr>");
+                }
+            },
+            error:function()
+            {
+                console.log("链接错误")
+            }
+        });
+    }
+    function insert() {
+        var mname=$("#mname").val();
+        var age=$("#age").val();
+        var job=$("#job").val();
+        $.ajax({
+            type: "post",
+            url: "myInsert.php",
+            data:{mname:mname,age:age,job:job},
+            success: function(msg)
+            {
+                refreash();
+            },
+            error:function()
+            {
+                console.log("链接错误");
+            }
+        });
+        return false;
+    }
+    function myQuery() {
+        var mname=$("#qmname").val();
+        var age=$("#qage").val();
+        var job=$("#qjob").val();
+        $.ajax({
+            type: "post",//传递方法
+            url: "myQuery.php",//数据接口
+            data:{mname:mname,age:age,job:job},
+            dataType:"json",
+            success:function (msg) {
+                $('table').remove();
+                $("body").append("<table id='member'><tr><th>id</th><th>name</th><th>age</th><th>job</th><th>select</th><th>修改</th></tr></table>");
+                for(var i =0;i<msg.length;i++)
+                {
+                    $("#member").append("<tr><th>"+msg[i]["id"]+"</th><th>"+msg[i]['mname']+"</th><th>"+msg[i]['age']+"</th><th>"+msg[i]['job']+"</th><th class='btnBox'><button class='dbtn'>delete</button></th><th><button class='change'>修改</button></th></tr>");
+                }
+                if (msg.length==0){
+                    $('table').remove();
+                    $('body').append('<p>无此结果</p>');
+                }
+
+            },error:function () {
+                console.log("查询错误");
+            }
+        });
+
+    }
+
+    function myChange(cmname,cage,cjob) {
+        $(document).on('click','#cbtn',function () {
+            $.ajax({
+                type:'post',
+                url:'myChange.php',
+
+                data:{mname:cmname,age:cage,job:cjob},
+                success:function () {
+                    refreash();
+                },error:function () {
+                    console.log("修改失败");
+                }
+            })
+        });
+    }
+    function myDelete(id) {
+        var choosen=$(id).text();
+        $.ajax({
+            type:"post",
+            url:"myDelete.php",
+            data:{id:choosen},
+            success:function (msg) {
+                refreash();
+            },
+            error:function () {
+                console.log("删除错误");
+            }
+        });
+    }
+    $(function(){
+        refreash();
+        $("#btn").click(function () {
+            insert();
+        });
+        $("#qbtn").click(function () {
+            myQuery();
+        });
+        $(document).on('click','.dbtn',function () {
+            var id=$(this).parent().parent().children('th')[0];
+            myDelete(id);
+        });
+        $(document).on('click','.change',function () {
+            var id=$(this).parent().parent().children('th')[0];
+//            var cmname=$(this).parent().parent().children('th')[1].textContent;
+            $("#cmname").val($(this).parent().parent().children('th')[1].textContent);
+            $("#cage").val($(this).parent().parent().children('th')[2].textContent);
+            $("#cjob").val($(this).parent().parent().children('th')[3].textContent);
+
+            $('#cbtn').click(function () {
+                var mname=$("#cmname").val();
+                var age=$("#cage").val();
+                var job=$("#cjob").val();
+                myChange(mname,age,job);
+            });
+        });
+
+    });
+
+</script>
+</body>
+</html>
