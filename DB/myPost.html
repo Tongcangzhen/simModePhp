@@ -60,6 +60,7 @@
             success: function(msg)
             {
                alert("提交成功");
+                $.ajax(getting);
             },
             error:function()
             {
@@ -68,6 +69,32 @@
         });
         return false;
     }
+
+    var getting = {
+
+        url:'resultQuery.php',
+        type:"POST",
+        dataType:'json',
+        timeout:80000,
+        success:function(res) {
+            //$("#member").append("<tr><th>"+res[0]["result_txt"]+"</th></tr>");
+            if (res.length == 0)
+            $.ajax(getting); //关键在这里，回调函数内再次请求Ajax
+            else {
+                console.log(res[0]['result_txt']);
+                //alert("返回数据成功，请求的端口为："+res[0]['result_txt']);
+                $("body").append("<h3 id='member'>"+"返回数据成功，请求的端口为："+res[0]['result_txt']+"</h3>");
+            }
+
+        },
+        //当请求时间过长（默认为60秒），就再次调用ajax长轮询
+        error:function(res){
+            $.ajax($getting);
+        }
+
+    };
+
+
 //     function myQuery() {
 //         var mname=$("#qmname").val();
 //         var age=$("#qage").val();

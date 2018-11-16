@@ -22,7 +22,27 @@
                         $("body").append("<table id='member'><tr><th>事务编号</th><th>契约</th><th>应用id</th><th>状态</th></tr></table>");
                         for(var i =0;i<msg.length;i++)
                         {
-                            $("#member").append("<tr><th>"+msg[i]["xtrans"]+"</th><th>"+msg[i]['xfc']+"</th><th>"+msg[i]['triggerappid']+"</th><th>"+msg[i]['status']+"</th></tr>");
+                            var k = "";
+                            console.log(msg[i]['status']);
+                            switch (msg[i]['status']) {
+                                case '01':
+                                    k = "契约创建";
+                                    break;
+                                case "02":
+                                    k = "数据归集";
+                                    break;
+                                case "03":
+                                    k = "融合";
+                                    break;
+                                case "00":
+                                    k = "结果推送";
+                                    break;
+                                default:
+                                    k = "未知";
+                                    break;
+
+                            }
+                            $("#member").append("<tr><th>"+msg[i]["xtrans"]+"</th><th>"+msg[i]['xfc']+"</th><th>"+msg[i]['triggerappid']+"</th><th>"+k+"</th></tr>");
                         }
                         evdata.data.btn.click();
                 },
