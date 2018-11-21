@@ -9,7 +9,7 @@
 //{
 header('Content-type: text/html; charset=utf-8');
     $user = new mysqli("localhost", "localuser", "toch1997za1.","jinghang");
-
+    //mysqli_query($user, ‘set names utf8');
     if ($user->connect_error) {
         die("connection failed: " . $user->connect_error);
         echo $user->connect_error;
