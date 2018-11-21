@@ -6,6 +6,9 @@
     <script  type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
 </head>
 <body>
+<h3 class="text-center">
+    大数据融合过程追踪
+</h3>
 <div id="msg"></div>
 <input id="btn" type="button" value="获取表格" />
 <script  type="text/javascript" >
@@ -19,7 +22,7 @@
                 timeout:80000,
                 success:function(msg){
                         $('table').remove();
-                        $("body").append("<table id='member'><tr><th>事务编号</th><th>契约</th><th>应用id</th><th>状态</th></tr></table>");
+                        $("body").append("<table id='member'><tr><th>事务编号</th><th>契约</th><th>应用平台</th><th>时间</th><th>状态</th></tr></table>");
                         for(var i =0;i<msg.length;i++)
                         {
                             var k = "";
@@ -42,7 +45,7 @@
                                     break;
 
                             }
-                            $("#member").append("<tr><th>"+msg[i]["xtrans"]+"</th><th>"+msg[i]['xfc']+"</th><th>"+msg[i]['triggerappid']+"</th><th>"+k+"</th></tr>");
+                            $("#member").append("<tr><th>"+msg[i]["xtrans"]+"</th><th>"+msg[i]['name']+"</th><th>"+msg[i]['app_name']+"</th><th>"+msg[i]['createdt']+"</th><th>"+k+"</th></tr>");
                         }
                         evdata.data.btn.click();
                 },

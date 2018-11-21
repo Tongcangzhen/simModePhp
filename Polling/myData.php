@@ -20,7 +20,7 @@ while (true){
         while($rows=$result->fetch_assoc())
         {
            $xtrans=$rows['xtrans'];
-            $query1 = 'SELECT * FROM xtrans_info where xtrans = '.$xtrans;
+            $query1 = 'SELECT a.xtrans,c.name,b.name as app_name,a.createdt,a.status FROM xtrans_info a,xm_app b,xfc_contract c where a.xfc=c.xfc and a.triggerappid=b.xapp and a.xtrans='.$xtrans;
             $result1 = $user->query($query1);
             while ($rows1 = $result1->fetch_assoc()) {
                 array_push($jsonArray,$rows1);

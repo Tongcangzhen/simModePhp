@@ -6,13 +6,47 @@
     <script src="http://code.jquery.com/jquery-latest.js"></script>
 </head>
 <body>
-<form>
-    姓名: <br><input type="text" name="custName" id="custName"/><br>
-    身份证号: <br><input type="text" name="custCertNo" id="custCertNo"/><br>
-    <!--手机号: <br><input type="text" name="phone" id="phone"/><br>-->
-    <!--银行卡号: <br><input type="text" name="bankNo" id="bankNo"/><br>-->
-    <input type="submit" id="btn" onclick="return insert()"/><br>
-</form>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="row-fluid">
+                <div class="span12">
+                    <h3 class="text-center">
+                        小额信贷服务超市-融合应用模拟
+                    </h3>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4">
+                </div>
+                <div class="span4">
+                    <p class="form-inline">
+                        <span></span>
+                    </p>
+                    <form>
+                        <fieldset>
+                            <p>
+                                <label>姓名</label>
+                            </p><input type="text" name="custName" id="custName"/>
+                            <p>
+                                <label>身份证号</label>
+                            </p><input type="text" name="custCertNo" id="custCertNo"/><br /> <button class="btn" type="submit" id="btn" onclick="return insert()">申请贷款</button>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="span4">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<form>-->
+    <!--姓名: <br><input type="text" name="custName" id="custName"/><br>-->
+    <!--身份证号: <br><input type="text" name="custCertNo" id="custCertNo"/><br>-->
+    <!--&lt;!&ndash;手机号: <br><input type="text" name="phone" id="phone"/><br>&ndash;&gt;-->
+    <!--&lt;!&ndash;银行卡号: <br><input type="text" name="bankNo" id="bankNo"/><br>&ndash;&gt;-->
+    <!--<input type="submit" id="btn" onclick="return insert()"/><br>-->
+<!--</form>-->
 <!--<form>-->
 <!--name: <input type="text" name="mname" id="qmname"/>-->
 <!--age: <input type="text" name="age" id="qage"/>-->
