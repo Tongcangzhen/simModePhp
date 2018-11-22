@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+<body>
+<form>
+    姓名: <br><input type="text" name="custName" id="custName"/><br>
+    身份证号: <br><input type="text" name="custCertNo" id="custCertNo"/><br>
+    手机号: <br><input type="text" name="phone" id="phone"/><br>
+    银行卡号: <br><input type="text" name="bankNo" id="bankNo"/><br>
+    <input type="submit" id="btn" onclick="return insert()"/><br>
+</form>
+<script type="text/javascript">
+    function insert() {
+        var custName=$("#custName").val();
+        var custCertNo=$("#custCertNo").val();
+        var phone=$("#phone").val();
+        var bankNo=$("#bankNo").val();
+        $.ajax({
+            type: "post",
+            url: "../DB/myInsert.php",
+            data:{xfc:'2018-03-001',term:'1',appid:'2018-01-001',param:"{\"custCertNo\":\""+custCertNo+"\",\"custName\":\""+custName+"\",\"phone\":\""+phone+"\",\"bankNo\":\""+bankNo+"\"}"},
+            success: function(msg)
+            {
+                alert("提交成功");
+                $.ajax(getting);
+            },
+            error:function()
+            {
+                console.log("链接错误");
+            }
+        });
+        return false;
+    }
+
+    var getting = {
+
+        url:'../DB/resultQuery.php',
+        type:"POST",
+        dataType:'json',
+        timeout:80000,
+        success:function(res) {
+            //$("#member").append("<tr><th>"+res[0]["result_txt"]+"</th></tr>");
+            if (res.length == 0)
+                $.ajax(getting); //关键在这里，回调函数内再次请求Ajax
+            else {
+                console.log(res[0]['result_txt']);
+                //alert("返回数据成功，请求的端口为："+res[0]['result_txt']);
+                $("body").append("<h3 id='member'>"+"返回数据成功，请求的端口为："+res[0]['result_txt']+"</h3>");
+            }
+
+        },
+        //当请求时间过长（默认为60秒），就再次调用ajax长轮询
+        error:function(res){
+            $.ajax($getting);
+        }
+
+    };
+
+
+</script>
+</body>
+</html>
