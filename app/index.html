@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Bootstrap 4, from LayoutIt!</title>
+
+    <meta name="description" content="Source code generated using layoutit.com">
+    <meta name="author" content="LayoutIt!">
+
+    <link href="../src/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../src/css/style.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<h1 class="text-center">
+				h3. Lorem ipsum dolor sit amet.
+			</h1>
+			<div class="row">
+				<div class="col-md-4 " id="buttonGroup">
+					<div class="btn-group btn-group-vertical" role="group" id="group111">
+						 
+						<button class="btn btn-secondary" type="button" id="buttonName">
+							Left
+						</button> 
+						<button class="btn btn-secondary" type="button" id="buttonNo">
+							Center
+						</button> 
+						<button class="btn btn-secondary" type="button" id="buttonPhone">
+							Right
+						</button> 
+						<button class="btn btn-secondary" type="button" id="buttonBank">
+							Justify
+						</button>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<form role="form">
+						<div class="form-group">
+							 
+							<label for="custName">
+								姓名
+							</label>
+							<input type="text" class="form-control" id="custName">
+						</div>
+						<div class="form-group">
+
+							<label for="custCertNo">
+								身份证号
+							</label>
+							<input type="text" class="form-control" id="custCertNo">
+						</div>
+						<div class="form-group">
+
+							<label for="phone">
+								手机号
+							</label>
+							<input type="text" class="form-control" id="phone">
+						</div>
+						<div class="form-group">
+							 
+							<label for="bankNo">
+								银行卡号
+							</label>
+							<input type="text" class="form-control" id="bankNo">
+						</div>
+
+						<button type="submit" class="btn btn-primary" onclick="return insert()">
+							申请
+						</button>
+					</form>
+				</div>
+				<div class="col-md-4">
+					<div class="card">
+						<h5 class="card-header">
+							处理结果：
+						</h5>
+						<div class="card-body" id="cardText">
+						</div>
+						<div class="card-footer">
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+    <script src="../src/js/jquery.min.js"></script>
+    <script src="../src/js/bootstrap.min.js"></script>
+    <script src="../src/js/scripts.js"></script>
+	<script type="text/javascript">
+        function insert() {
+            var custName=$("#custName").val();
+            var custCertNo=$("#custCertNo").val();
+            var phone=$("#phone").val();
+            var bankNo=$("#bankNo").val();
+            $.ajax({
+                type: "post",
+                url: "../DB/myInsert.php",
+                data:{xfc:'2018-03-001',term:'1',appid:'2018-01-001',param:"{\"custCertNo\":\""+custCertNo+"\",\"custName\":\""+custName+"\",\"phone\":\""+phone+"\",\"bankNo\":\""+bankNo+"\"}"},
+                success: function(msg)
+                {
+                    cardAdd("申请成功，申请"+msg);
+                    changeButton();
+                    $.ajax(getting);
+                },
+                error:function()
+                {
+                    console.log("链接错误");
+                }
+            });
+            return false;
+        }
+
+        function changeButton() {
+			var name=document.getElementById("custName").value;
+            var custNo=document.getElementById("custCertNo").value;
+            var phone=document.getElementById("phone").value;
+            var bankNo=document.getElementById("bankNo").value;
+          //  console.log(name.value);
+            $("#group111").remove();
+            $("#buttonGroup").append("<div class=\"btn-group btn-group-vertical\" role=\"group\" id=\"group111\">\n" +
+                "\t\t\t\t\t\t \n" +
+                "\t\t\t\t\t\t<button class=\"btn btn-secondary\" type=\"button\" id=\"buttonName\" onclick='changeform(\"custName\",\""+name+"\")'>\n" +
+                "\t\t\t\t\t\t\t"+name+"\n" +
+                "\t\t\t\t\t\t</button> \n" +
+                "\t\t\t\t\t\t<button class=\"btn btn-secondary\" type=\"button\" id=\"buttonNo\" onclick='changeform(\"custCertNo\",\""+custNo+"\")'>\n" +
+                "\t\t\t\t\t\t\t"+custNo+"\n" +
+                "\t\t\t\t\t\t</button> \n" +
+                "\t\t\t\t\t\t<button class=\"btn btn-secondary\" type=\"button\" id=\"buttonPhone\" onclick='changeform(\"phone\",\""+phone+"\")' >\n" +
+                "\t\t\t\t\t\t\t"+phone+"\n" +
+                "\t\t\t\t\t\t</button> \n" +
+                "\t\t\t\t\t\t<button class=\"btn btn-secondary\" type=\"button\" id=\"buttonBank\" onclick='changeform(\"bankNo\",\""+bankNo+"\")' >\n" +
+                "\t\t\t\t\t\t\t"+bankNo+"\n" +
+                "\t\t\t\t\t\t</button>\n" +
+                "\t\t\t\t\t</div>");
+            doReset();
+        }
+
+        function doReset(){
+            document.getElementById("custName").value="";
+            document.getElementById("custCertNo").value="";
+            document.getElementById("phone").value="";
+            document.getElementById("bankNo").value="";
+        }
+
+        function changeform(k,value) {
+            document.getElementById(k).value=value;
+        }
+        function cardAdd(k) {
+			$("#cardText").append("<p class=\"card-text\">\n" +
+                "\t\t\t\t\t\t\t\t"+k+"\n" +
+                "\t\t\t\t\t\t\t</p>")
+        }
+
+        var getting = {
+
+            url:'../DB/resultQuery.php',
+            type:"POST",
+            dataType:'json',
+            timeout:80000,
+            success:function(res) {
+                //$("#member").append("<tr><th>"+res[0]["result_txt"]+"</th></tr>");
+                if (res.length == 0)
+                    $.ajax(getting); //关键在这里，回调函数内再次请求Ajax
+                else {
+                    console.log(res[0]['result_txt']);
+                    //alert("返回数据成功，请求的端口为："+res[0]['result_txt']);
+                    //$("body").append("<h3 id='member'>"+"返回数据成功，请求的端口为："+res[0]['result_txt']+"</h3>");
+					cardAdd(""+res[0]['work_id']+"号申请审批成功")
+
+                }
+
+            },
+            //当请求时间过长（默认为60秒），就再次调用ajax长轮询
+            error:function(res){
+                $.ajax($getting);
+            }
+
+        };
+
+
+	</script>
+  </body>
+</html>

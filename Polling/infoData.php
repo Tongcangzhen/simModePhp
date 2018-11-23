@@ -12,6 +12,7 @@ $i=0;
 while (true){
     if (!connection_aborted()) {
         sleep(1);
+        mysqli_query($user,'set names utf8');
         $query = 'SELECT a.xtrans,c.name,b.name as app_name,a.createdt,a.status FROM xtrans_info a,xm_app b,xfc_contract c where a.xfc=c.xfc and a.triggerappid=b.xapp and a.status=00 order by a.createdt desc limit 10';
         $result = $user->query($query);
 
