@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Bootstrap 4, from LayoutIt!</title>
+
+    <meta name="description" content="Source code generated using layoutit.com">
+    <meta name="author" content="LayoutIt!">
+
+    <link href="../src/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../src/css/style.css" rel="stylesheet">
+
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="text-center">
+                大数据融合追踪
+            </h1>
+        </div>
+    </div>
+    <div class="row" >
+        <div class="col-md-12" id="track1">
+            <h4 class="text-center text-muted">
+                过程追踪
+            </h4>
+            <table id="kkk" class="table table-sm table-bordered">
+                <thead>
+                <tr>
+                    <th>
+                        日志编号
+                    </th>
+                    <th>
+                        事务编号
+                    </th>
+                    <th>
+                        契约
+                    </th>
+                    <th>
+                        时间
+                    </th>
+                    <th>
+                        状态
+                    </th>
+                    <th>
+                        操作类型
+                    </th>
+                    <th>
+                        协同对象类别
+                    </th>
+                    <th>
+                        协同对象名字
+                    </th>
+                </tr>
+                </thead>
+            </table>
+
+        </div>
+    </div>
+</div>
+<input id="btn" type="button" value="获取表格" />
+<script src="../src/js/jquery.min.js"></script>
+<script src="../src/js/bootstrap.min.js"></script>
+<script src="../src/js/scripts.js"></script>
+
+<script  type="text/javascript" >
+    $(function(){
+        $("#btn").bind("click",{btn:$("#btn")},function(evdata){
+
+            $.ajax({
+                type:"POST",
+                dataType:"json",
+                url:"logData.php",
+                timeout:80000,
+                success:function(msg){
+                    $("#kkk").remove();
+                    $("#track1").append("<table id=\"kkk\" class=\"table table-sm table-bordered\">\n" +
+                        "                <thead>\n" +
+                        "                <tr>\n" +
+                        "                    <th>\n" +
+                        "                        日志编号\n" +
+                        "                    </th>\n" +
+                        "                    <th>\n" +
+                        "                        事务编号\n" +
+                        "                    </th>\n" +
+                        "                    <th>\n" +
+                        "                        契约\n" +
+                        "                    </th>\n" +
+                        "                    <th>\n" +
+                        "                        时间\n" +
+                        "                    </th>\n" +
+                        "                    <th>\n" +
+                        "                        状态\n" +
+                        "                    </th>\n" +
+                        "                    <th>\n" +
+                        "                        操作类型\n" +
+                        "                    </th>\n" +
+                        "                    <th>\n" +
+                        "                        协同对象类别\n" +
+                        "                    </th>\n" +
+                        "                    <th>\n" +
+                        "                        协同对象名字\n" +
+                        "                    </th>\n" +
+                        "                </tr>\n" +
+                        "                </thead>\n" +
+                        "            </table>");
+                    for(var i =0;i<msg.length;i++)
+                    {
+                        var k = "";
+                        // console.log(msg[i]['status']);
+                        switch (msg[i]['xstatus']) {
+                            case '01':
+                                k = "契约创建";
+                                break;
+                            case "02":
+                                k = "数据归集";
+                                break;
+                            case "03":
+                                k = "融合";
+                                break;
+                            case "00":
+                                k = "结果推送";
+                                break;
+                            default:
+                                k = "未知";
+                                break;
+
+                        }
+                        $("#kkk").append("<tr><th>"+msg[i]["instid"]+"</th><th>"+msg[i]["xtrans"]+"</th><th>"+msg[i]['xfc_name']+"</th><th>"+msg[i]['createdt']+"</th><th>"+k+"</th><th>"+msg[i]['operation']+"</th><th>"+msg[i]['coordtype']+"</th><th>"+msg[i]['coord_name']+"</th></tr>");
+                    }
+                    //evdata.data.btn.click();
+                    $("#btn").click()
+                },
+                error:function(XMLHttpRequest,textStatus,errorThrown){
+                    if(textStatus=="timeout"){
+                        // $("#msg").append("<br>[超时]");
+                        //evdata.data.btn.click();
+                        $("#btn").click()
+                    }
+                }
+
+            });
+
+        });
+
+    });
+</script>
+
+</body>
+</html>
