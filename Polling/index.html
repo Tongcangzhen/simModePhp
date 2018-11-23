@@ -52,27 +52,30 @@
 			</table>
 
 		</div>
-		<div class="col-md-6">
+		<div class="col-md-6" id="track2">
 			<h4 class="text-center text-muted">
 				结果展示
 			</h4>
-			<table class="table table-sm table-bordered">
-				<thead>
-					<tr>
-						<th>
-							#
-						</th>
-						<th>
-							Product
-						</th>
-						<th>
-							Payment Taken
-						</th>
-						<th>
-							Status
-						</th>
-					</tr>
-				</thead>
+			<table id="table_ppp" class="table table-sm table-bordered">
+                <thead>
+                <tr>
+                    <th>
+                        事务编号
+                    </th>
+                    <th>
+                        契约
+                    </th>
+                    <th>
+                        应用平台
+                    </th>
+                    <th>
+                        时间
+                    </th>
+                    <th>
+                        推送结果
+                    </th>
+                </tr>
+                </thead>
 			</table>
 		</div>
 	</div>
@@ -117,7 +120,7 @@
                         for(var i =0;i<msg.length;i++)
                         {
                             var k = "";
-                            console.log(msg[i]['status']);
+                           // console.log(msg[i]['status']);
                             switch (msg[i]['status']) {
                                 case '01':
                                     k = "契约创建";
@@ -138,16 +141,85 @@
                             }
                             $("#kkk").append("<tr><th>"+msg[i]["xtrans"]+"</th><th>"+msg[i]['name']+"</th><th>"+msg[i]['app_name']+"</th><th>"+msg[i]['createdt']+"</th><th>"+k+"</th></tr>");
                         }
-                        evdata.data.btn.click();
+                        //evdata.data.btn.click();
+                        $("#btn").click()
                     },
                     error:function(XMLHttpRequest,textStatus,errorThrown){
                         if(textStatus=="timeout"){
                             // $("#msg").append("<br>[超时]");
-                            evdata.data.btn.click();
+                            //evdata.data.btn.click();
+                            $("#btn").click()
                         }
                     }
 
                 });
+
+
+                $.ajax({
+                    type:"POST",
+                    dataType:"json",
+                    url:"infoData.php",
+                    timeout:80000,
+                    success:function(msg){
+                        $("#table_ppp").remove();
+                        $("#track2").append("<table id=\"table_ppp\" class=\"table table-sm table-bordered\">\n" +
+                            "\t\t\t\t<thead>\n" +
+                            "\t\t\t\t\t<tr>\n" +
+                            "\t\t\t\t\t\t<th>\n" +
+                            "\t\t\t\t\t\t\t事务编号\n" +
+                            "\t\t\t\t\t\t</th>\n" +
+                            "\t\t\t\t\t\t<th>\n" +
+                            "\t\t\t\t\t\t\t契约\n" +
+                            "\t\t\t\t\t\t</th>\n" +
+                            "\t\t\t\t\t\t<th>\n" +
+                            "\t\t\t\t\t\t\t应用平台\n" +
+                            "\t\t\t\t\t\t</th>\n" +
+                            "\t\t\t\t\t\t<th>\n" +
+                            "\t\t\t\t\t\t\t时间\n" +
+                            "\t\t\t\t\t\t</th>\n" +
+                            "\t\t\t\t\t\t<th>\n" +
+                            "\t\t\t\t\t\t\t推送结果\n" +
+                            "\t\t\t\t\t\t</th>\n" +
+                            "\t\t\t\t\t</tr>\n" +
+                            "\t\t\t\t</thead>\n" +
+                            "\t\t\t</table>");
+                        for(var i =0;i<msg.length;i++)
+                        {
+                            var k = "";
+                            //console.log(msg[i]['status']);
+                            switch (msg[i]['status']) {
+                                case '01':
+                                    k = "契约创建";
+                                    break;
+                                case "02":
+                                    k = "数据归集";
+                                    break;
+                                case "03":
+                                    k = "融合";
+                                    break;
+                                case "00":
+                                    k = "推送成功";
+                                    break;
+                                default:
+                                    k = "未知";
+                                    break;
+
+                            }
+                            $("#table_ppp").append("<tr><th>"+msg[i]["xtrans"]+"</th><th>"+msg[i]['name']+"</th><th>"+msg[i]['app_name']+"</th><th>"+msg[i]['createdt']+"</th><th>"+k+"</th></tr>");
+                        }
+                        //evdata.data.btn.click();
+                        $("#btn").click()
+                    },
+                    error:function(XMLHttpRequest,textStatus,errorThrown){
+                        if(textStatus=="timeout"){
+                            // $("#msg").append("<br>[超时]");
+                            //evdata.data.btn.click();
+                            $("#btn").click()
+                        }
+                    }
+
+                });
+
             });
 
         });
