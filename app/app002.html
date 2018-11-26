@@ -23,6 +23,11 @@
                 小额信贷服务超市-融合应用模拟
             </h1>
             <div class="row">
+                <div class="col-md-12 mpull-right">
+                    <a href="../index.html" class="btn btn-secondary mpull-right" type="button" >返回</a>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-4 " id="buttonGroup">
                     <div class="btn-group btn-group-vertical" role="group" id="group111">
 
@@ -123,6 +128,9 @@
         document.getElementById(k).value=value;
     }
     function cardAdd(k) {
+        if ($(".card  .card-text" ).length > 8) {
+            // $(".card").find(".card-text:last-child").remove();
+            $("p.card-text").parent().children("p:last").remove();
         $("#cardText").append("<p class=\"card-text\">\n" +
             "\t\t\t\t\t\t\t\t"+k+"\n" +
             "\t\t\t\t\t\t\t</p>")
