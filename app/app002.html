@@ -131,6 +131,7 @@
         if ($(".card  .card-text" ).length > 8) {
             // $(".card").find(".card-text:last-child").remove();
             $("p.card-text").parent().children("p:last").remove();
+        }
         $("#cardText").append("<p class=\"card-text\">\n" +
             "\t\t\t\t\t\t\t\t"+k+"\n" +
             "\t\t\t\t\t\t\t</p>")
@@ -160,7 +161,7 @@
             $.ajax($getting);
         }
 
-    };
+    }
 
 
 </script>
